@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled, { css } from 'styled-components';
+import { AppContext } from '../AppProvider';
 
 const Logo = styled.div`
   font-size: 1.5em;
@@ -24,11 +25,16 @@ function toProperCase(lower){
   return lower.charAt(0).toUpperCase() + lower.substr(1); // passing in "lower", .charAt(0) takes first letter, takes first character, capitalizes it, then adds the rest of the strings in.
 }
 
-function ControlButton({ name, active }) { //name allows us to create our own attribute with specific value. In this case we are creating the key "name" and in the render function, returning the values "dashboard" and "settings"
+function ControlButton({ name }) { //name allows us to create our own attribute with specific value. In this case we are creating the key "name" and in the render function, returning the values "dashboard" and "settings"
   return (
-    <ControlButtonElement active={active}>
-      {toProperCase(name)}
-    </ControlButtonElement>)
+    <AppContext.Consumer>
+      {({ page }) => ( //passing in page and active  state from AppProvider component. This allows us to change the state of  "page" to watever equals "name"
+        <ControlButtonElement active={page === name}> 
+        {toProperCase(name)}
+        </ControlButtonElement>
+      )}
+    </AppContext.Consumer>
+  )
 }
 
 class NavBar extends Component{
