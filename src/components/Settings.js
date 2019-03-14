@@ -1,13 +1,14 @@
-import React from 'react'
+import React from 'react';
+import WelcomeMessage from './WelcomeMessage';
 import '../styles/AppLayout';
 import ConfirmButton from './ConfirmButton';
-
+import Page from './Page';
 
 export default function() {
   return(
-    <h1>
-      Welcome. Choose Your Currency
+    <Page name="settings">
+      <WelcomeMessage />
       <ConfirmButton />
-    </h1>
+    </Page>
   )
 }

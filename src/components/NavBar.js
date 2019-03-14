@@ -44,7 +44,7 @@ class NavBar extends Component{
   render() {
     return(
       <Bar>
-        <div>CryptoDash</div>
+        <h1>CryptoDash</h1>
         <div />
         <ControlButton active name="dashboard" />
         <ControlButton name="settings" />

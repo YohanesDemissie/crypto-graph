@@ -3,6 +3,7 @@ import AppLayout from '../styles/AppLayout'
 import NavBar from './NavBar';
 import { AppProvider } from '../AppProvider';
 import Settings from './Settings';
+import Content from './Content';
 
 
 class Home extends Component {
@@ -11,7 +12,9 @@ class Home extends Component {
       <AppLayout>
         <AppProvider>
           <NavBar />
-          <Settings />
+          <Content>
+            <Settings />
+          </Content>
         </AppProvider>
       </AppLayout>
     )
