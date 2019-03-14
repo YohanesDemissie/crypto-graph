@@ -1,6 +1,8 @@
 // APP STATE PROVIDER/CONSUMER COMPONENT
 import React from 'react';
 
+const cc = require('cryptocompare');
+
 export const AppContext = React.createContext(); //we woll use the "consumers" for the child components
 
 export class AppProvider extends React.Component { //AppProvider will be used to warp everything to provide state as the parent component
@@ -12,6 +14,16 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       setPage: this.setPage, //React.Context DOCS: "contains the updater function to be passed down into the context provider"
       confirmFavorites: this.confirmFavorites
     }
+  }
+
+  componentDidMount = () => {
+    this.fetchCoins();
+  }
+
+  fetchCoins = async () => {
+    let coinList = (await cc.coinList()).Data; //waiting for cc promise to return, asyncronously wait for that to come back with "await" we're passing in
+    this.setState({ coinList });
+    console.log(coinList)
   }
 
   confirmFavorites = () => {
