@@ -7,7 +7,8 @@ export class AppProvider extends React.Component { //AppProvider will be used to
   constructor(props) {
     super(props);
     this.state = {
-      page: 'dashboard'
+      page: 'dashboard',
+      setPage: this.setPage, //React.Context DOCS: "contains the updater function to be passed down into the context provider"
     }
   }
   setPage = page => this.setState({ page });

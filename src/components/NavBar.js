@@ -28,9 +28,12 @@ function toProperCase(lower){
 function ControlButton({ name }) { //name allows us to create our own attribute with specific value. In this case we are creating the key "name" and in the render function, returning the values "dashboard" and "settings"
   return (
     <AppContext.Consumer>
-      {({ page }) => ( //passing in page and active  state from AppProvider component. This allows us to change the state of  "page" to watever equals "name"
-        <ControlButtonElement active={page === name}> 
-        {toProperCase(name)}
+      {({ page, setPage }) => ( //passing in page and active  state from AppProvider component. This allows us to change the state of  "page" to watever equals "name"
+        <ControlButtonElement
+          active={page === name}
+          onClick={() => setPage(name)} //setting state to clicked name/value in nav bar to place highlight on
+        > 
+          {toProperCase(name)}
         </ControlButtonElement>
       )}
     </AppContext.Consumer>
