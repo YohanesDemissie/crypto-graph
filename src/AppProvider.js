@@ -19,6 +19,7 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       setPage: this.setPage, //React.Context DOCS: "contains the updater function to be passed down into the context provider"
       addCoin: this.addCoin,
       removeCoin: this.removeCoin,
+      isInFavorites: this.isInFavorites,
       confirmFavorites: this.confirmFavorites
     }
   }
@@ -46,6 +47,8 @@ export class AppProvider extends React.Component { //AppProvider will be used to
     let favorites = [...this.state.favorites];
     this.setState({ favorites: _.pull(favorites, key)}) //lodash pull means pull this value from array and return new array of that value removed
   }
+
+  isInFavorites = key => _.includes(this.state.favorites, key) //makes sure there are no identical keys in the "favorites"
 
   confirmFavorites = () => {
     this.setState({
