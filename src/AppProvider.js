@@ -1,5 +1,6 @@
 // APP STATE PROVIDER/CONSUMER COMPONENT
 import React from 'react';
+import _ from 'lodash';
 
 const cc = require('cryptocompare');
 //cc.setApiKey('87655f7ff80780800b1125b68135dc3ecc1a9444174dd12848d9ed29e63da894')
@@ -17,6 +18,7 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       favorites: ['BTC', 'ETH', 'XMR', 'DODGE'],
       setPage: this.setPage, //React.Context DOCS: "contains the updater function to be passed down into the context provider"
       addCoin: this.addCoin,
+      removeCoin: this.removeCoin,
       confirmFavorites: this.confirmFavorites
     }
   }
@@ -38,6 +40,11 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       favorites.push(key);
       this.setState({ favorites });
     }
+  }
+
+  removeCoin = key => {
+    let favorites = [...this.state.favorites];
+    this.setState({ favorites: _.pull(favorites, key)}) //lodash pull means pull this value from array and return new array of that value removed
   }
 
   confirmFavorites = () => {

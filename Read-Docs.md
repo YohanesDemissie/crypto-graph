@@ -10,4 +10,4 @@
 #API LIMIT REACHED!!
 - Commented out CoinImage src and alt attributes
 
-- commented out original CoinTile.js <CoinHeaderGrid> and <CoinImage> because they communicate with api. Replaced with placeholder componentes for now
+- commented out original CoinTile.js <CoinHeaderGrid> and <CoinImage> because they communicate with api. Replaced with placeholder components for now
