@@ -12,13 +12,13 @@ export const CoinGridStyled = styled.div`
   margin-top: 40px;
 `
 function getLowerSectionCoins(coinList, filteredCoins) {
-  return filteredCoins && Object.keys(filteredCoins) || 
+  return (filteredCoins && Object.keys(filteredCoins)) ||
     Object.keys(coinList).slice(0, 10)
 }
 
 
 function getCoinsToDisplay(coinList, topSection, favorites, filterCoins) {
-  return topSection ? favorites : getLowerSectionCoins(filterCoins)
+  return topSection ? favorites : getLowerSectionCoins(coinList, filterCoins)
 }
 
 export default function({ topSection }) {

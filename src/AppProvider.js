@@ -2,8 +2,8 @@
 import React from 'react';
 import _ from 'lodash';
 
-const cc = require('cryptocompare');
-//cc.setApiKey('87655f7ff80780800b1125b68135dc3ecc1a9444174dd12848d9ed29e63da894')
+const cc = require('cryptocompare')
+cc.setApiKey('87655f7ff80780800b1125b68135dc3ecc1a9444174dd12848d9ed29e63da894')
 
 export const AppContext = React.createContext(); //we woll use the "consumers" for the child components
 
@@ -27,13 +27,33 @@ export class AppProvider extends React.Component { //AppProvider will be used to
 
   componentDidMount = () => {
     this.fetchCoins();
+    this.fetchPrices();
   }
 
   //waiting for cc promise to return, asyncronously wait for that to come back with "await" we're passing in
   fetchCoins = async () => {
     let coinList = (await cc.coinList()).Data;
     this.setState({ coinList });
-    // console.log(coinList);
+  }
+
+  fetchPrices = async () => {
+    if (this.state.firstVisit) return;
+    let prices = await this.prices();
+    console.log(prices, 'did this work?');
+    this.setState({ prices });
+  }
+
+  prices = async () => {
+    let returnData = [];
+    for ( let i = 0; i < this.state.favorites.length; i++) {
+      try {
+        let priceData = await cc.priceFull(this.state.favorites[i], 'USD');
+        returnData.push(priceData);
+      } catch (e){
+        console.warn('Fetch price err; ', e);
+      }
+    }
+    return returnData;
   }
 
   addCoin = key => { //key will represent each coin and its values
@@ -51,10 +71,12 @@ export class AppProvider extends React.Component { //AppProvider will be used to
 
   isInFavorites = key => _.includes(this.state.favorites, key) //makes sure there are no identical keys in the "favorites"
 
-  confirmFavorites = () => {
+  confirmFavorites = () => { //setting default state on saving favorites before loading "fetchPrices" on favored coins "added to state by user"
     this.setState({
       firstVisit: false,
       page: 'dashboard',
+    }, () => {
+      this.fetchPrices();
     })
     localStorage.setItem('cryptoDash', JSON.stringify({
       favorites: this.state.favorites
