@@ -13,8 +13,7 @@ function clickCoinHandler(topSection, coinKey, addCoin, removeCoin){
 }
 
 export default function({ coinKey, topSection }){
-  return (
-    <AppContext.Consumer>
+  return <AppContext.Consumer>
       {({coinList, addCoin, removeCoin, isInFavorites}) => {
         let coin = coinList[coinKey];
 
@@ -35,5 +34,5 @@ export default function({ coinKey, topSection }){
         </TileClass>
       }}
     </AppContext.Consumer>
-  )
+  
 }

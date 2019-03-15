@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { AppContext } from '../AppProvider';
 import CoinTile from './CoinTile';
+import { filter } from 'fuzzy';
 
 //GRID DOCS: css-tricks.com/auto-sizing-columns-css-grid-auto-fill-vs-auto-fit 
 export const CoinGridStyled = styled.div`
@@ -10,16 +11,21 @@ export const CoinGridStyled = styled.div`
   grid-gap: 15px;
   margin-top: 40px;
 `
+function getLowerSectionCoins(coinList, filteredCoins) {
+  return filteredCoins && Object.keys(filteredCoins) || 
+    Object.keys(coinList).slice(0, 10)
+}
 
-function getCoinsToDisplay(coinList, topSection, favorites) {
-  return topSection ? favorites : Object.keys(coinList).slice(0, 10); //gives us top 100 coins to save loading time. CHANGED TO 10 TO SAVE API CALLS!!!
+
+function getCoinsToDisplay(coinList, topSection, favorites, filterCoins) {
+  return topSection ? favorites : getLowerSectionCoins(filterCoins)
 }
 
 export default function({ topSection }) {
   return (
     <AppContext.Consumer>
-      {({ coinList, favorites }) => <CoinGridStyled>
-        {getCoinsToDisplay(coinList, topSection, favorites).map(coinKey => //take in array of keys of coinList, mapping that key to its own div
+      {({ coinList, favorites, filteredCoins }) => <CoinGridStyled>
+        {getCoinsToDisplay(coinList, topSection, favorites, filteredCoins).map(coinKey => //take in array of keys of coinList, mapping that key to its own div
           <CoinTile topSection={topSection} coinKey={coinKey} />
         )}
       </CoinGridStyled> }
