@@ -56,7 +56,7 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       page: 'dashboard',
     })
     localStorage.setItem('cryptoDash', JSON.stringify({
-      test: 'hello favorites state!'
+      favorites: this.state.favorites
     }))
   }
 
@@ -65,7 +65,8 @@ export class AppProvider extends React.Component { //AppProvider will be used to
     if (!cryptoDashData) {
       return({ page: 'settings', firstVisit: true }) //return default state to "settings page" to select crypto currency if there has not been any currency selected and stored in local storage and set a boolean value to it
     }
-    return {};
+    let {favorites} = cryptoDashData;
+    return {favorites};
   }
   setPage = page => this.setState({ page });
 
