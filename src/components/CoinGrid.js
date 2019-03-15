@@ -1,11 +1,12 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { AppContext } from '../AppProvider';
 import CoinTile from './CoinTile';
 
+//GRID DOCS: css-tricks.com/auto-sizing-columns-css-grid-auto-fill-vs-auto-fit 
 export const CoinGridStyled = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   grid-gap: 15px;
   margin-top: 40px;
 `
