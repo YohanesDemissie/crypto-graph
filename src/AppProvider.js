@@ -72,24 +72,27 @@ export class AppProvider extends React.Component { //AppProvider will be used to
   isInFavorites = key => _.includes(this.state.favorites, key) //makes sure there are no identical keys in the "favorites"
 
   confirmFavorites = () => { //setting default state on saving favorites before loading "fetchPrices" on favored coins "added to state by user"
+    let currentFavorite = this.state.favorites[0]; //here we will grab first index of FAVORITES as TOP FAVORITE
     this.setState({
       firstVisit: false,
       page: 'dashboard',
+      currentFavorite,
     }, () => {
       this.fetchPrices();
     })
     localStorage.setItem('cryptoDash', JSON.stringify({
-      favorites: this.state.favorites
-    }))
+      favorites: this.state.favorites,
+      currentFavorite,
+    }));
   }
 
   savedSettings() {
     let cryptoDashData = JSON.parse(localStorage.getItem('cryptoDash')); //part 1. grabs json data from crypto dash
     if (!cryptoDashData) {
-      return({ page: 'settings', firstVisit: true }) //return default state to "settings page" to select crypto currency if there has not been any currency selected and stored in local storage and set a boolean value to it
+      return{ page: 'settings', firstVisit: true } //return default state to "settings page" to select crypto currency if there has not been any currency selected and stored in local storage and set a boolean value to it
     }
-    let {favorites} = cryptoDashData;
-    return {favorites};
+    let {favorites, currentFavorite} = cryptoDashData;
+    return {favorites, currentFavorite};
   }
   setPage = page => this.setState({ page });
 
