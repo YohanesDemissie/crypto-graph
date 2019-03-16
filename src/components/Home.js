@@ -4,6 +4,7 @@ import NavBar from './NavBar';
 import { AppProvider } from '../AppProvider';
 import Settings from './Settings';
 import Content from './Content';
+import Dashboard from './Dashboard/Dashboard';
 
 
 class Home extends Component {
@@ -14,6 +15,7 @@ class Home extends Component {
           <NavBar />
           <Content>
             <Settings />
+            <Dashboard />
           </Content>
         </AppProvider>
       </AppLayout>
