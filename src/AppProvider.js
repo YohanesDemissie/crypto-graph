@@ -15,12 +15,13 @@ export class AppProvider extends React.Component { //AppProvider will be used to
     this.state = {
       page: 'dashboard',
       ...this.savedSettings(), //This will take the user to "settings" as opposed to "dashboard" to select coin currency if nothing is in local storage.
-      favorites: ['BTC', 'ETH', 'XMR', 'DODGE'],
+      favorites: ['BTC', 'ETH', 'XMR', 'DOGE'],
       setPage: this.setPage, //React.Context DOCS: "contains the updater function to be passed down into the context provider"
       addCoin: this.addCoin,
       removeCoin: this.removeCoin,
       isInFavorites: this.isInFavorites,
       confirmFavorites: this.confirmFavorites,
+      setCurrentFavorite: this.setCurrentFavorite,
       setFilteredCoins: this.setFilteredCoins,
     }
   }
@@ -84,6 +85,16 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       favorites: this.state.favorites,
       currentFavorite,
     }));
+  }
+
+  setCurrentFavorite = (sym) => {
+    this.setState({
+      currentFavorite: sym,
+    });
+    localStorage.setItem('cryptoDash', JSON.stringify({
+      ...JSON.parse(localStorage.getItem('cryptoDash')),
+      currentFavorite: sym,
+    }))
   }
 
   savedSettings() {

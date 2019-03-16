@@ -52,9 +52,9 @@ function ChangedPercentageComponent({ data }) {
   )
 }
 
-function PriceTile({sym, data, currentFavorite}) { //top 5/10 coins in favorites to render bigger text for user preference
+function PriceTile({sym, data, currentFavorite, setCurrentFavorite}) { //top 5/10 coins in favorites to render bigger text for user preference
   return (
-    <PriceTileStyled currentFavorite={currentFavorite}>
+    <PriceTileStyled onClick={setCurrentFavorite} currentFavorite={currentFavorite}>
       <CoinHeaderGridStyled>
         <div>{sym}</div>
         <ChangedPercentageComponent data={data} />
@@ -66,9 +66,9 @@ function PriceTile({sym, data, currentFavorite}) { //top 5/10 coins in favorites
   )
 }
 
-function PriceTileCompact({sym, data, currentFavorite}) { // last 5/10 in favorites with smaller text
+function PriceTileCompact({sym, data, currentFavorite, setCurrentFavorite}) { // last 5/10 in favorites with smaller text
   return (
-    <PriceTileStyled compact currentFavorite={currentFavorite}>
+    <PriceTileStyled onClick={setCurrentFavorite} compact currentFavorite={currentFavorite}>
         <JustifyLeft>{sym}</JustifyLeft>
         <ChangedPercentageComponent data={data} />
       <div>
@@ -84,8 +84,13 @@ export default function ({ price, index}){
   let TileClass = index < 5 ? PriceTile : PriceTileCompact;
   return (
     <AppContext.Consumer>
-      {({currentFavorite}) =>
-        <TileClass sym={sym} data={data} currentFavorite={currentFavorite  === sym} />
+      {({currentFavorite, setCurrentFavorite}) =>
+        <TileClass
+          sym={sym}
+          data={data}
+          currentFavorite={currentFavorite  === sym}
+          setCurrentFavorite={() => setCurrentFavorite(sym)}
+        />
       }
     </AppContext.Consumer>
   )
