@@ -19,6 +19,9 @@ const ControlButtonElement = styled.div`
   ${props => props.active && css`
     text-shadow: 0px 0px 60px #03ff03;
   `}
+  ${props => props.hidden && css `
+    display: none;
+  `}
 `
 
 function toProperCase(lower){
@@ -28,10 +31,11 @@ function toProperCase(lower){
 function ControlButton({ name }) { //name allows us to create our own attribute with specific value. In this case we are creating the key "name" and in the render function, returning the values "dashboard" and "settings"
   return (
     <AppContext.Consumer>
-      {({ page, setPage }) => ( //passing in page and active  state from AppProvider component. This allows us to change the state of  "page" to watever equals "name"
+      {({ firstVisit, page, setPage }) => ( //passing in page and active  state from AppProvider component. This allows us to change the state of  "page" to watever equals "name"
         <ControlButtonElement
           active={page === name}
           onClick={() => setPage(name)} //setting state to clicked name/value in nav bar to place highlight on
+          hidden={firstVisit && name === 'dashboard'}
         > 
           {toProperCase(name)}
         </ControlButtonElement>

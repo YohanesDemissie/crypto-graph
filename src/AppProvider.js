@@ -18,6 +18,7 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       page: 'dashboard',
       ...this.savedSettings(), //This will take the user to "settings" as opposed to "dashboard" to select coin currency if nothing is in local storage.
       favorites: ['BTC', 'ETH', 'XMR', 'DOGE'],
+      timeInterval: 'months',
       setPage: this.setPage, //React.Context DOCS: "contains the updater function to be passed down into the context provider"
       addCoin: this.addCoin,
       removeCoin: this.removeCoin,
@@ -25,6 +26,7 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       confirmFavorites: this.confirmFavorites,
       setCurrentFavorite: this.setCurrentFavorite,
       setFilteredCoins: this.setFilteredCoins,
+      changeChartSelect: this.changeChartSelect,
     }
   }
 
@@ -54,7 +56,7 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       {
         name: this.state.currentFavorite,
         data: results.map((value, index) => [ //X coordinate is date. Y is the price
-          moment().subtract({months: TIME_UNITS - index}).valueOf(), // index = 0. so it starts at 10th index and displays descending from 10
+          moment().subtract({[this.state.timeInterval]: TIME_UNITS - index}).valueOf(), // index = 0. so it starts at 10th index and displays descending from 10
           value.USD
         ])
       }
@@ -82,7 +84,7 @@ export class AppProvider extends React.Component { //AppProvider will be used to
         cc.priceHistorical(this.state.currentFavorite,
           ['USD'],
           moment()
-            .subtract({months: units})
+            .subtract({ [this.state.timeInterval]: units})
             .toDate()
           ) //this is the query  inside the crtyptocompare API
       )
@@ -146,7 +148,10 @@ export class AppProvider extends React.Component { //AppProvider will be used to
 
   setFilteredCoins = (filteredCoins) => this.setState({ filteredCoins});
 
-  render() {
+  changeChartSelect = (value) => {
+    this.setState({timeInterval: value, historical: null}, this.fetchHistorical);
+  }
+  render(){
     return (
       <AppContext.Provider value={this.state}>
         {this.props.children}
