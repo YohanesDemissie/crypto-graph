@@ -14,8 +14,6 @@ export default function ({coin, spotlight }) {
   return <CoinImage
   spotlight={spotlight}
     alt={coin.CoinSymbol}
-    src={`http://cryptocompare.com/${
-      coin.ImageUrl
-    }`}
+    src={`https://cryptocompare.com/${coin.ImageUrl}`}
   />
 }

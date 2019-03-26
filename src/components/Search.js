@@ -16,10 +16,10 @@ const SearchInput = styled.input`
   border: 1px solid;
   height: 25px;
   color: #1163c9;
-  place-self: center left;
+  place-self: center left; 
 `
 //_.debounce part of lodash library: Creates a debounced function that delays inovking function until after "wait" milliseconds have elapsed since the last time the debounced function was invoked
-const handleFilter = _.debounce((inputValue, coinList, setFilteredCoins) => {
+const handleFilter = _.debounce((inputValue, coinList, setFilterCoins) => {
   // Get all the coin symbols
   let coinSymbols = Object.keys(coinList);
   //GET all the oin names, map symbol to name
@@ -33,7 +33,7 @@ const handleFilter = _.debounce((inputValue, coinList, setFilteredCoins) => {
     let coinName = result.CoinName;
     return (_.includes(fuzzyResults, symKey) || _.includes(fuzzyResults, coinName));
   });
-
+  setFilterCoins(filteredCoins);
 }, 500); //half a second myst pass before fireing this function
 
 //responsible for grabbing user input as inputValue
@@ -41,6 +41,7 @@ function filterCoins(e, setFilteredCoins, coinList) {
   let inputValue = e.target.value;
   if (!inputValue) {
     setFilteredCoins(null);
+    return;
   }
   handleFilter(inputValue, coinList, setFilteredCoins);
   console.log(inputValue);
