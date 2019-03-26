@@ -1,13 +1,15 @@
 // APP STATE PROVIDER/CONSUMER COMPONENT
 import React from 'react';
 import _ from 'lodash';
-
+import moment from 'moment';
 const cc = require('cryptocompare')
 cc.setApiKey('87655f7ff80780800b1125b68135dc3ecc1a9444174dd12848d9ed29e63da894')
 
 export const AppContext = React.createContext(); //we woll use the "consumers" for the child components
 
 const MAX_FAVORITES = 10;
+
+const TIME_UNITS = 10;
 
 export class AppProvider extends React.Component { //AppProvider will be used to warp everything to provide state as the parent component
   constructor(props) {
@@ -29,6 +31,7 @@ export class AppProvider extends React.Component { //AppProvider will be used to
   componentDidMount = () => {
     this.fetchCoins();
     this.fetchPrices();
+    this.fetchHistorical(); //to fetch data on each coin to display in graph
   }
 
   //waiting for cc promise to return, asyncronously wait for that to come back with "await" we're passing in
@@ -44,9 +47,24 @@ export class AppProvider extends React.Component { //AppProvider will be used to
     this.setState({ prices });
   }
 
+  fetchHistorical = async () => {
+    if (this.state.firstVisit) return;
+    let results = await this.historical(); // which will be historical fetch
+    let historical = [
+      {
+        name: this.state.currentFavorite,
+        data: results.map((value, index) => [ //X coordinate is date. Y is the price
+          moment().subtract({months: TIME_UNITS - index}).valueOf(), // index = 0. so it starts at 10th index and displays descending from 10
+          value.USD
+        ])
+      }
+    ]
+    this.setState({historical});
+  }
+
   prices = async () => {
     let returnData = [];
-    for ( let i = 0; i < this.state.favorites.length; i++) {
+    for ( let i = 0; i < this.state.favorites.length; i++){
       try {
         let priceData = await cc.priceFull(this.state.favorites[i], 'USD');
         returnData.push(priceData);
@@ -55,6 +73,21 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       }
     }
     return returnData;
+  }
+
+  historical = () => {
+    let promises = [];
+    for (let units = TIME_UNITS; units > 0; units--) { // reads data from 10 days ago to most recent (one day ago)
+      promises.push(
+        cc.priceHistorical(this.state.currentFavorite,
+          ['USD'],
+          moment()
+            .subtract({months: units})
+            .toDate()
+          ) //this is the query  inside the crtyptocompare API
+      )
+    }
+    return Promise.all(promises); //returns only when all promises are fulfilled
   }
 
   addCoin = key => { //key will represent each coin and its values

@@ -9,9 +9,9 @@ ReactHighCharts.Highcharts.setOptions(HighchartsTheme); //ReactHighcharts (to ac
 export default function() {
   return (
     <AppContext.Consumer>
-      {({}) => 
+      {({historical}) => 
       <Tile>
-        <ReactHighCharts config={HighchartsConfig()} />
+        <ReactHighCharts config={HighchartsConfig(historical)} />
       </Tile>
       }
     </AppContext.Consumer>
