@@ -2,8 +2,8 @@
 import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
-const cc = require('cryptocompare')
-cc.setApiKey('87655f7ff80780800b1125b68135dc3ecc1a9444174dd12848d9ed29e63da894')
+const cc = require('cryptocompare');
+// cc.setApiKey('87655f7ff80780800b1125b68135dc3ecc1a9444174dd12848d9ed29e63da894')
 
 export const AppContext = React.createContext(); //we woll use the "consumers" for the child components
 
@@ -119,7 +119,7 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       this.fetchPrices();
       this.fetchHistorical();
     })
-    localStorage.setItem('cryptoDash', JSON.stringify({
+    localStorage.setItem('cryptoDash', JSON.stringify({ //'cryptoDash being the key, value being the object being stringified
       favorites: this.state.favorites,
       currentFavorite,
     }));
