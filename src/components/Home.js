@@ -5,6 +5,7 @@ import { AppProvider } from '../AppProvider';
 import Settings from './Settings';
 import Content from './Content';
 import Dashboard from './Dashboard/Dashboard';
+import '../styles/App.css'
 
 
 class Home extends Component {
