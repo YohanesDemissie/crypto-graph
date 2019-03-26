@@ -111,8 +111,11 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       firstVisit: false,
       page: 'dashboard',
       currentFavorite,
+      prices: null,
+      historical: null
     }, () => {
       this.fetchPrices();
+      this.fetchHistorical();
     })
     localStorage.setItem('cryptoDash', JSON.stringify({
       favorites: this.state.favorites,
@@ -120,13 +123,14 @@ export class AppProvider extends React.Component { //AppProvider will be used to
     }));
   }
 
-  setCurrentFavorite = (sym) => {
+  setCurrentFavorite = (sym) => { //sym = symbol
     this.setState({
       currentFavorite: sym,
-    });
+      historical: null //default until onlcick event handler loads clicked sym on page between different coins
+    }, this.fetchHistorical); //call back fetchHistorical after setting favorite from favorites lists page
     localStorage.setItem('cryptoDash', JSON.stringify({
       ...JSON.parse(localStorage.getItem('cryptoDash')),
-      currentFavorite: sym,
+      currentFavorite: sym
     }))
   }
 
