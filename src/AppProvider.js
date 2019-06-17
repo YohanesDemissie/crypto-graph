@@ -62,9 +62,6 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       }
     ]
     this.setState({ historical });
-// =======
-//     this.setState({historical});
-// >>>>>>> 4280660c915f5f91f9ae429283ba82f755a57294
   }
 
   prices = async () => {
@@ -75,13 +72,6 @@ export class AppProvider extends React.Component { //AppProvider will be used to
         let priceData = await cc.priceFull(this.state.favorites[i], 'USD');
         returnData.push(priceData);
       } catch (e) {
-// =======
-//     for ( let i = 0; i < this.state.favorites.length; i++){
-//       try {
-//         let priceData = await cc.priceFull(this.state.favorites[i], 'USD');
-//         returnData.push(priceData);
-//       } catch (e){
-// >>>>>>> 4280660c915f5f91f9ae429283ba82f755a57294
         console.warn('Fetch price err; ', e);
       }
     }
@@ -115,9 +105,6 @@ export class AppProvider extends React.Component { //AppProvider will be used to
     let favorites = [...this.state.favorites];
 
     this.setState({ favorites: _.pull(favorites, key) }) //lodash pull means pull this value from array and return new array of that value removed
-// =======
-//     this.setState({ favorites: _.pull(favorites, key)}) //lodash pull means pull this value from array and return new array of that value removed
-// >>>>>>> 4280660c915f5f91f9ae429283ba82f755a57294
   }
 
   isInFavorites = key => _.includes(this.state.favorites, key) //makes sure there are no identical keys in the "favorites"
