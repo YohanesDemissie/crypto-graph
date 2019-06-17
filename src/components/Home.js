@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
 import AppLayout from '../styles/AppLayout'
 import NavBar from './NavBar';
-import styled from 'styled-components'
+import { AppProvider } from '../AppProvider';
+import Settings from './Settings';
+import Content from './Content';
+import Dashboard from './Dashboard/Dashboard';
+import '../styles/App.css'
 
-const Title = styled.h1`
-  text-align: center;
-`
+
 class Home extends Component {
   render() {
     return(
-      <div>
-        <NavBar />
-        <h1>Welcome to Crypto Graph</h1>
-      </div>
+      <AppLayout>
+        <AppProvider>
+          <NavBar />
+          <Content>
+            <Settings />
+            <Dashboard />
+          </Content>
+        </AppProvider>
+      </AppLayout>
     )
   }
 }

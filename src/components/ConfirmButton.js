@@ -1,0 +1,34 @@
+import React from 'react';
+import styled from 'styled-components';
+import { AppContext } from '../AppProvider';
+import {fontSize1, greenBoxShadow, color3 } from '../styles/Styles'
+
+const ConfirmedButtonStyled = styled.div`
+  margin: 20px;
+  color: ${color3};
+  ${fontSize1};
+  padding: 5px;
+  cursor: pointer;
+  &:hover {
+      ${greenBoxShadow};
+    }
+`
+
+export const CenterDiv = styled.div`
+  display: grid;
+  justify-content: center;
+`
+
+export default function() {
+  return (
+    <AppContext.Consumer>
+      {({ confirmFavorites }) =>
+        <CenterDiv>
+          <ConfirmedButtonStyled onClick={confirmFavorites}>
+            Confirm Favorites
+          </ConfirmedButtonStyled>
+        </CenterDiv>
+      }
+    </AppContext.Consumer>
+  )
+}

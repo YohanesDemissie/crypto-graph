@@ -56,21 +56,37 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       {
         name: this.state.currentFavorite,
         data: results.map((value, index) => [ //X coordinate is date. Y is the price
+<<<<<<< HEAD
           moment().subtract({ [this.state.timeInterval]: TIME_UNITS - index }).valueOf(), // index = 0. so it starts at 10th index and displays descending from 10
+=======
+          moment().subtract({[this.state.timeInterval]: TIME_UNITS - index}).valueOf(), // index = 0. so it starts at 10th index and displays descending from 10
+>>>>>>> 4280660c915f5f91f9ae429283ba82f755a57294
           value.USD
         ])
       }
     ]
+<<<<<<< HEAD
     this.setState({ historical });
+=======
+    this.setState({historical});
+>>>>>>> 4280660c915f5f91f9ae429283ba82f755a57294
   }
 
   prices = async () => {
     let returnData = [];
+<<<<<<< HEAD
     for (let i = 0; i < this.state.favorites.length; i++) {
       try {
         let priceData = await cc.priceFull(this.state.favorites[i], 'USD');
         returnData.push(priceData);
       } catch (e) {
+=======
+    for ( let i = 0; i < this.state.favorites.length; i++){
+      try {
+        let priceData = await cc.priceFull(this.state.favorites[i], 'USD');
+        returnData.push(priceData);
+      } catch (e){
+>>>>>>> 4280660c915f5f91f9ae429283ba82f755a57294
         console.warn('Fetch price err; ', e);
       }
     }
@@ -84,9 +100,15 @@ export class AppProvider extends React.Component { //AppProvider will be used to
         cc.priceHistorical(this.state.currentFavorite,
           ['USD'],
           moment()
+<<<<<<< HEAD
             .subtract({ [this.state.timeInterval]: units })
             .toDate()
         ) //this is the query  inside the crtyptocompare API
+=======
+            .subtract({ [this.state.timeInterval]: units})
+            .toDate()
+          ) //this is the query  inside the crtyptocompare API
+>>>>>>> 4280660c915f5f91f9ae429283ba82f755a57294
       )
     }
     return Promise.all(promises); //returns only when all promises are fulfilled
@@ -102,7 +124,11 @@ export class AppProvider extends React.Component { //AppProvider will be used to
 
   removeCoin = key => {
     let favorites = [...this.state.favorites];
+<<<<<<< HEAD
     this.setState({ favorites: _.pull(favorites, key) }) //lodash pull means pull this value from array and return new array of that value removed
+=======
+    this.setState({ favorites: _.pull(favorites, key)}) //lodash pull means pull this value from array and return new array of that value removed
+>>>>>>> 4280660c915f5f91f9ae429283ba82f755a57294
   }
 
   isInFavorites = key => _.includes(this.state.favorites, key) //makes sure there are no identical keys in the "favorites"
@@ -139,6 +165,7 @@ export class AppProvider extends React.Component { //AppProvider will be used to
   savedSettings() {
     let cryptoDashData = JSON.parse(localStorage.getItem('cryptoDash')); //part 1. grabs json data from crypto dash
     if (!cryptoDashData) {
+<<<<<<< HEAD
       return { page: 'settings', firstVisit: true } //return default state to "settings page" to select crypto currency if there has not been any currency selected and stored in local storage and set a boolean value to it
     }
     let { favorites, currentFavorite } = cryptoDashData;
@@ -152,6 +179,21 @@ export class AppProvider extends React.Component { //AppProvider will be used to
     this.setState({ timeInterval: value, historical: null }, this.fetchHistorical);
   }
   render() {
+=======
+      return{ page: 'settings', firstVisit: true } //return default state to "settings page" to select crypto currency if there has not been any currency selected and stored in local storage and set a boolean value to it
+    }
+    let {favorites, currentFavorite} = cryptoDashData;
+    return {favorites, currentFavorite};
+  }
+  setPage = page => this.setState({ page });
+
+  setFilteredCoins = (filteredCoins) => this.setState({ filteredCoins});
+
+  changeChartSelect = (value) => {
+    this.setState({timeInterval: value, historical: null}, this.fetchHistorical);
+  }
+  render(){
+>>>>>>> 4280660c915f5f91f9ae429283ba82f755a57294
     return (
       <AppContext.Provider value={this.state}>
         {this.props.children}
