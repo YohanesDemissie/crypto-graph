@@ -66,7 +66,6 @@ export class AppProvider extends React.Component { //AppProvider will be used to
 
   prices = async () => {
     let returnData = [];
-
     for (let i = 0; i < this.state.favorites.length; i++) {
       try {
         let priceData = await cc.priceFull(this.state.favorites[i], 'USD');
@@ -103,7 +102,6 @@ export class AppProvider extends React.Component { //AppProvider will be used to
 
   removeCoin = key => {
     let favorites = [...this.state.favorites];
-
     this.setState({ favorites: _.pull(favorites, key) }) //lodash pull means pull this value from array and return new array of that value removed
   }
 
@@ -141,7 +139,6 @@ export class AppProvider extends React.Component { //AppProvider will be used to
   savedSettings() {
     let cryptoDashData = JSON.parse(localStorage.getItem('cryptoDash')); //part 1. grabs json data from crypto dash
     if (!cryptoDashData) {
-
       return { page: 'settings', firstVisit: true } //return default state to "settings page" to select crypto currency if there has not been any currency selected and stored in local storage and set a boolean value to it
     }
     let { favorites, currentFavorite } = cryptoDashData;
@@ -155,21 +152,6 @@ export class AppProvider extends React.Component { //AppProvider will be used to
     this.setState({ timeInterval: value, historical: null }, this.fetchHistorical);
   }
   render() {
-// =======
-//       return{ page: 'settings', firstVisit: true } //return default state to "settings page" to select crypto currency if there has not been any currency selected and stored in local storage and set a boolean value to it
-//     }
-//     let {favorites, currentFavorite} = cryptoDashData;
-//     return {favorites, currentFavorite};
-//   }
-//   setPage = page => this.setState({ page });
-
-//   setFilteredCoins = (filteredCoins) => this.setState({ filteredCoins});
-
-//   changeChartSelect = (value) => {
-//     this.setState({timeInterval: value, historical: null}, this.fetchHistorical);
-//   }
-//   render(){
-// >>>>>>> 4280660c915f5f91f9ae429283ba82f755a57294
     return (
       <AppContext.Provider value={this.state}>
         {this.props.children}
