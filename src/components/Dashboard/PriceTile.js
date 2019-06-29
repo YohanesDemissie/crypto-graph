@@ -52,7 +52,7 @@ function ChangedPercentageComponent({ data }) {
   )
 }
 
-function PriceTile({sym, data, currentFavorite, setCurrentFavorite}) { //top 5/10 coins in favorites to render bigger text for user preference
+function PriceTile({ sym, data, currentFavorite, setCurrentFavorite }) { //top 5/10 coins in favorites to render bigger text for user preference
   return (
     <PriceTileStyled onClick={setCurrentFavorite} currentFavorite={currentFavorite}>
       <CoinHeaderGridStyled>
@@ -66,11 +66,11 @@ function PriceTile({sym, data, currentFavorite, setCurrentFavorite}) { //top 5/1
   )
 }
 
-function PriceTileCompact({sym, data, currentFavorite, setCurrentFavorite}) { // last 5/10 in favorites with smaller text
+function PriceTileCompact({ sym, data, currentFavorite, setCurrentFavorite }) { // last 5/10 in favorites with smaller text
   return (
     <PriceTileStyled onClick={setCurrentFavorite} compact currentFavorite={currentFavorite}>
-        <JustifyLeft>{sym}</JustifyLeft>
-        <ChangedPercentageComponent data={data} />
+      <JustifyLeft>{sym}</JustifyLeft>
+      <ChangedPercentageComponent data={data} />
       <div>
         ${numberFormat(data.PRICE)}
       </div>
@@ -78,17 +78,17 @@ function PriceTileCompact({sym, data, currentFavorite, setCurrentFavorite}) { //
   )
 }
 
-export default function ({ price, index}){
+export default function ({ price, index }) {
   let sym = Object.keys(price)[0]; //to recieve symbol
   let data = price[sym]['USD']; //return price in us dollars
   let TileClass = index < 5 ? PriceTile : PriceTileCompact;
   return (
     <AppContext.Consumer>
-      {({currentFavorite, setCurrentFavorite}) =>
+      {({ currentFavorite, setCurrentFavorite }) =>
         <TileClass
           sym={sym}
           data={data}
-          currentFavorite={currentFavorite  === sym}
+          currentFavorite={currentFavorite === sym}
           setCurrentFavorite={() => setCurrentFavorite(sym)}
         />
       }
