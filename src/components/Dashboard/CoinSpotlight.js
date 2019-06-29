@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import {Tile} from '../../styles/Tile';
+import { Tile } from '../../styles/Tile';
 import { AppContext } from '../../AppProvider';
 import CoinImage from '../CoinImage';
 
@@ -12,7 +12,7 @@ class CoinSpotLight extends Component {
   render() {
     return (
       <AppContext.Consumer>
-        {({currentFavorite, coinList}) =>
+        {({ currentFavorite, coinList }) =>
           <Tile>
             <SpotLightName>{coinList[currentFavorite].CoinName} </SpotLightName>
             <CoinImage spotlight coin={coinList[currentFavorite]} />

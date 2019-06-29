@@ -2,8 +2,8 @@
 import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
-const cc = require('cryptocompare')
-cc.setApiKey('87655f7ff80780800b1125b68135dc3ecc1a9444174dd12848d9ed29e63da894')
+const cc = require('cryptocompare');
+// cc.setApiKey('87655f7ff80780800b1125b68135dc3ecc1a9444174dd12848d9ed29e63da894')
 
 export const AppContext = React.createContext(); //we woll use the "consumers" for the child components
 
@@ -56,21 +56,21 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       {
         name: this.state.currentFavorite,
         data: results.map((value, index) => [ //X coordinate is date. Y is the price
-          moment().subtract({[this.state.timeInterval]: TIME_UNITS - index}).valueOf(), // index = 0. so it starts at 10th index and displays descending from 10
+          moment().subtract({ [this.state.timeInterval]: TIME_UNITS - index }).valueOf(), // index = 0. so it starts at 10th index and displays descending from 10
           value.USD
         ])
       }
     ]
-    this.setState({historical});
+    this.setState({ historical });
   }
 
   prices = async () => {
     let returnData = [];
-    for ( let i = 0; i < this.state.favorites.length; i++){
+    for (let i = 0; i < this.state.favorites.length; i++) {
       try {
         let priceData = await cc.priceFull(this.state.favorites[i], 'USD');
         returnData.push(priceData);
-      } catch (e){
+      } catch (e) {
         console.warn('Fetch price err; ', e);
       }
     }
@@ -84,9 +84,9 @@ export class AppProvider extends React.Component { //AppProvider will be used to
         cc.priceHistorical(this.state.currentFavorite,
           ['USD'],
           moment()
-            .subtract({ [this.state.timeInterval]: units})
+            .subtract({ [this.state.timeInterval]: units })
             .toDate()
-          ) //this is the query  inside the crtyptocompare API
+        ) //this is the query  inside the crtyptocompare API
       )
     }
     return Promise.all(promises); //returns only when all promises are fulfilled
@@ -102,7 +102,7 @@ export class AppProvider extends React.Component { //AppProvider will be used to
 
   removeCoin = key => {
     let favorites = [...this.state.favorites];
-    this.setState({ favorites: _.pull(favorites, key)}) //lodash pull means pull this value from array and return new array of that value removed
+    this.setState({ favorites: _.pull(favorites, key) }) //lodash pull means pull this value from array and return new array of that value removed
   }
 
   isInFavorites = key => _.includes(this.state.favorites, key) //makes sure there are no identical keys in the "favorites"
@@ -119,7 +119,7 @@ export class AppProvider extends React.Component { //AppProvider will be used to
       this.fetchPrices();
       this.fetchHistorical();
     })
-    localStorage.setItem('cryptoDash', JSON.stringify({
+    localStorage.setItem('cryptoDash', JSON.stringify({ //'cryptoDash being the key, value being the object being stringified
       favorites: this.state.favorites,
       currentFavorite,
     }));
@@ -139,19 +139,19 @@ export class AppProvider extends React.Component { //AppProvider will be used to
   savedSettings() {
     let cryptoDashData = JSON.parse(localStorage.getItem('cryptoDash')); //part 1. grabs json data from crypto dash
     if (!cryptoDashData) {
-      return{ page: 'settings', firstVisit: true } //return default state to "settings page" to select crypto currency if there has not been any currency selected and stored in local storage and set a boolean value to it
+      return { page: 'settings', firstVisit: true } //return default state to "settings page" to select crypto currency if there has not been any currency selected and stored in local storage and set a boolean value to it
     }
-    let {favorites, currentFavorite} = cryptoDashData;
-    return {favorites, currentFavorite};
+    let { favorites, currentFavorite } = cryptoDashData;
+    return { favorites, currentFavorite };
   }
   setPage = page => this.setState({ page });
 
-  setFilteredCoins = (filteredCoins) => this.setState({ filteredCoins});
+  setFilteredCoins = (filteredCoins) => this.setState({ filteredCoins });
 
   changeChartSelect = (value) => {
-    this.setState({timeInterval: value, historical: null}, this.fetchHistorical);
+    this.setState({ timeInterval: value, historical: null }, this.fetchHistorical);
   }
-  render(){
+  render() {
     return (
       <AppContext.Provider value={this.state}>
         {this.props.children}
